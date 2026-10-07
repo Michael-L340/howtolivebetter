@@ -80,6 +80,14 @@ const meta = { sha, date, count: all.length, sections: sections.length, tagline,
   ratio: Object.fromEntries(['极高','高','一般'].map(r=>[r, all.filter(e=>e.ratio===r).length])) };
 writeFileSync(out, JSON.stringify({ meta, sections }));
 writeFileSync(docsOut, JSON.stringify(docs));
+// 拆分：data/index.json 只放首屏要用的字段（标题、说人话、标签），data/sNN.json 放各节的详情（成本、收益、来源、备注），按需加载
+import { mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
+const dataDir = join(dirname(out), 'data'); mkdirSync(dataDir, { recursive: true });
+const light = sections.map(s => ({ n:s.n, title:s.title, intro:s.intro, entries: s.entries.map(e => ({ n:e.n, title:e.title, human:e.human, grade:e.grade, level:e.level, lens:e.lens, money:e.money, time:e.time, will:e.will, ratio:e.ratio, dispute:e.dispute, nsrc:(e.src.match(/https?:\/\//g)||[]).length })) }));
+writeFileSync(join(dataDir,'index.json'), JSON.stringify({ meta, sections: light }));
+for (const s of sections) writeFileSync(join(dataDir, `s${s.n}.json`), JSON.stringify({ n:s.n, entries: s.entries.map(e => ({ n:e.n, cost:e.cost, gain:e.gain, src:e.src, note:e.note })) }));
+console.log('data/index.json', JSON.stringify({ meta, sections: light }).length, 'B; sections', sections.length);
 console.log('docs', docs.length, docs.map(d=>d.title).join(' / '));
 
 console.log(JSON.stringify(meta));

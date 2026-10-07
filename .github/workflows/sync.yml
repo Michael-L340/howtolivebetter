@@ -31,11 +31,11 @@ jobs:
         run: node tools/build.mjs upstream book.json
       - name: 有变化才提交
         run: |
-          if git diff --quiet -- book.json docs.json; then echo "上游没变"; exit 0; fi
+          if git diff --quiet -- book.json docs.json data/; then echo "上游没变"; exit 0; fi
           sha=$(git -C upstream rev-parse --short HEAD)
           git config user.name  github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add book.json docs.json
+          git add book.json docs.json data/
           git commit -m "同步上游 ${sha}"
           git push
       # 公开仓库 60 天没有活动，GitHub 会自动停掉定时任务。每次跑完重新启用自己一次，防止静默停掉。

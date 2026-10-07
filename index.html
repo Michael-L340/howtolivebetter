@@ -285,7 +285,8 @@ function mark(kind,key,on){ const e=BYKEY[key]; if(!e) return; if(on) REC[kind][
 function touch(key){ const e=BYKEY[key]; if(!e) return; REC.recent=REC.recent.filter(r=>r.key!==key); REC.recent.unshift({key,title:e.title,t:now()}); REC.recent=REC.recent.slice(0,60); saveRec(); }
 // 上游可能插条、改序、改标题。记录里存着标题快照：位置对不上时，在同一节里按标题找回来；找不到就标 lost，不硬配。
 function lcs(a,b){ const dp=new Array(b.length+1).fill(0); for(let i=1;i<=a.length;i++){ let prev=0; for(let j=1;j<=b.length;j++){ const tmp=dp[j]; dp[j]= a[i-1]===b[j-1] ? prev+1 : Math.max(dp[j],dp[j-1]); prev=tmp; } } return dp[b.length]; }
-const norm=t=>String(t||'').replace(/[\s\p{P}\p{S}\d]/gu,'');
+let NORM_RE; try{ NORM_RE=new RegExp('[\\s\\p{P}\\p{S}\\d]','gu'); }catch(e){ NORM_RE=/[\s\d!-\/:-@\[-`{-~\u3000-\u303f\uff00-\uffef]/g; }
+const norm=t=>String(t||'').replace(NORM_RE,'');
 function resolve(key,title){
   if(typeof key!=='string') return null;
   const e=BYKEY[key]; if(e && (!title || e.title===title)) return key;
@@ -325,7 +326,7 @@ const EXPLAIN={
   ratio:`<b>性价比档怎么定</b><p>${RULE}</p><p>这是原作者的判断，不代表证据强度。「一般」不等于不该做，只是那笔花销是否值得需要自行判断。</p>`,
   lens:'<b>换回什么</b><p>每条建议都是用成本换回一样东西。这个标记写的就是这条主要换回哪一类：</p>'+LENS_EXPL+'<p>不同类别之间不比大小，「死亡率降 12%」和「每年省 500 元」不在一把尺子上。</p>',
 };
-function ratioPop(e){ const m=W.money[e.money]??0,t=W.time[e.time]??0,w=W.will[e.will]??0; return `<b>这条：性价比 ${e.ratio}</b><p>好处 <b>${e.level||'未标'}</b>；成本 钱 ${m} + 时间 ${t} + 毅力 ${w} = <b>${m+t+w}</b> 分</p>`+EXPLAIN.ratio; }
+function ratioPop(e){ const nz=(v)=>typeof v==='number'?v:0; const m=nz(W.money[e.money]),t=nz(W.time[e.time]),w=nz(W.will[e.will]); return `<b>这条：性价比 ${e.ratio}</b><p>好处 <b>${e.level||'未标'}</b>；成本 钱 ${m} + 时间 ${t} + 毅力 ${w} = <b>${m+t+w}</b> 分</p>`+EXPLAIN.ratio; }
 const RATIO_NOTE=`<p class="hint">性价比档：${RULE} 点卡片上的「性价比」看这条怎么算的，详见<a href="#about">说明</a>。</p>`;
 
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -360,15 +361,15 @@ function pass(e){
   if(state.will && e.will!=='否') return false;
   if(state.gradeA && e.grade!=='A') return false;
   if(state.hideRead && REC.read[e.key]) return false;
-  if(state.q){ const t=(e.title+'\n'+e.human+'\n'+e.cost+'\n'+e.gain+'\n'+e.note).toLowerCase(); if(!t.includes(state.q.toLowerCase())) return false; }
+  if(state.q){ const t=(e.title+'\n'+e.human+(e.loaded?'\n'+e.cost+'\n'+e.gain+'\n'+e.note:'')).toLowerCase(); if(!t.includes(state.q.toLowerCase())) return false; }
   return true;
 }
-function srcCount(s){ return (s.match(/https?:\/\//g)||[]).length; }
+function srcCount(e){ if(typeof e.nsrc==='number') return e.nsrc; return (String(e.src||'').match(/https?:\/\//g)||[]).length; }
 
 function card(e, sec, q, showSec){
   const key=e.key; const done=!!REC.done[key], fav=!!REC.fav[key], read=!!REC.read[key];
   const chip=(k,v)=>`<span class="chip"><i>${k}</i>${v}</span>`;
-  const nsrc=srcCount(e.src);
+  const nsrc=srcCount(e);
   return `<article class="card ${done?'done':''} ${read?'read':''}" id="s${key}" data-k="${key}">
     <div class="eyebrow"><button class="seal ${e.grade} clickable" type="button" data-pop="grade:${e.grade}" title="证据等级 ${e.grade}，点击查看解释">${e.grade}</button><button class="ratio ${RLV[e.ratio]} clickable" type="button" data-pop="ratio:${key}" title="点击查看这条的分档计算">性价比 ${e.ratio}</button><button class="lens clickable" type="button" data-pop="lens" title="点击查看四种口径的含义"><i>换回</i>${LENS[e.lens]||'未标'}</button><span class="n">${showSec?`第 ${sec.n} 节 · `:''}第 ${e.n} 条</span>${e.dispute?'<span class="n">· 有争议</span>':''}<span class="readtag">已阅</span></div>
     <h3><a href="#s${key}">${rich(e.title,sec.n,q)}</a></h3>
@@ -380,13 +381,19 @@ function card(e, sec, q, showSec){
       <button class="fav-b ${fav?'on':''}" type="button" aria-pressed="${fav}">${fav?'★ 已收藏':'☆ 收藏'}</button>
       <button class="read-b" type="button" title="浏览过的条目会自动标为已阅，可在此手动更改">${read?'标为未阅':'标为已阅'}</button>
     </div>
-    <div class="detail">
-      <p class="lbl">成本</p><p>${rich(e.cost,sec.n,q)}</p>
-      <p class="lbl">收益</p><p>${rich(e.gain,sec.n,q)}</p>
-      ${e.note?`<p class="lbl">备注</p><p>${rich(e.note,sec.n,q)}</p>`:''}
-      <details class="src"><summary>来源${nsrc?`（${nsrc} 条）`:''}</summary><div>${rich(e.src,sec.n,q)}</div></details>
-    </div>
+    <div class="detail">${detailHTML(e,sec.n,q)}</div>
   </article>`;
+}
+function detailHTML(e,secN,q){
+  if(!e.loaded) return '<p class="lbl">正在加载详情…</p>';
+  const nsrc=srcCount(e);
+  return `<p class="lbl">成本</p><p>${rich(e.cost,secN,q)}</p>
+      <p class="lbl">收益</p><p>${rich(e.gain,secN,q)}</p>
+      ${e.note?`<p class="lbl">备注</p><p>${rich(e.note,secN,q)}</p>`:''}
+      <details class="src"><summary>来源${nsrc?`（${nsrc} 条）`:''}</summary><div>${rich(e.src,secN,q)}</div></details>`;
+}
+function refreshDetails(secN){ // 某节详情到了，把页面上这节已渲染的卡片详情补上
+  main.querySelectorAll('.card').forEach(c=>{ const k=c.dataset.k; if(+k.split('-')[0]!==secN) return; const e=BYKEY[k]; const d=c.querySelector('.detail'); if(e&&d) d.innerHTML=detailHTML(e,secN,state.q); });
 }
 function switches(){
   const sw=(k,label)=>`<button class="sw ${state[k]?'on':''}" data-sw="${k}" type="button" aria-pressed="${state[k]}"><i></i>${label}</button>`;
@@ -443,6 +450,7 @@ function section(n){
   ${RATIO_NOTE}
   <div class="toolbar"><span class="count">${list.length} / ${s.entries.length} 条</span><span>·</span><button type="button" id="open-all">全部展开详情</button></div>
   <div class="list">${list.length?list.map(e=>card(e,s,'',false)).join(''):'<p class="empty">当前筛选条件下本节没有条目，可取消部分筛选。</p>'}</div>`;
+  loadSection(s.n).then(()=>refreshDetails(s.n));
 }
 function results(){
   const q=state.q, rows=[];
@@ -453,7 +461,9 @@ function results(){
   <h1 class="page-title">「${esc(q)}」</h1>
   ${switches()}
   <div class="toolbar"><span class="count">${rows.length} 条</span>${dh.length?`<span>· 长文里也提到：${dh.map(d=>`<a href="${dHref(d)}">${esc(d.title.split('：')[0])}</a>`).join('、')}</span>`:''}</div>
+  <div class="toolbar" id="search-note">${ALL_LOADED?'':'<span>已搜标题和说人话，正在加载成本、收益、备注以便搜全文…</span>'}</div>
   <div class="list">${rows.length?rows.join(''):'<p class="empty">没有匹配的条目。试试换个关键词，例如把「借钱」换成「借条」。</p>'}</div>`;
+  if(!ALL_LOADED) loadAll().then(()=>{ if(state.q===q) results(); });
 }
 function topOnly(){
   const rows=[]; for(const s of BOOK) for(const e of s.entries) if(e.ratio==='极高'&&pass(e)) rows.push(card(e,s,'',true));
@@ -620,7 +630,7 @@ function route(){
     section(+m[1]);
     if(m[2]){ const key=`${m[1]}-${m[2]}`; target=document.getElementById('s'+key);
       if(!target && BYKEY[key]){ state.money=state.time=state.will=state.gradeA=state.hideRead=false; saveFilters(); section(+m[1]); target=document.getElementById('s'+key); main.insertAdjacentHTML('afterbegin','<p class="hint">目标条目被筛选条件隐藏，已清除筛选。</p>'); }
-      if(target){ openCard(target,true); target.classList.add('hit'); setTimeout(()=>target.classList.remove('hit'),2500); touch(key); } }
+      if(target){ openCard(target,true); target.classList.add('hit'); setTimeout(()=>target.classList.remove('hit'),2500); touch(key); if(!BYKEY[key].loaded){ const sn=+m[1]; loadSection(sn).then(()=>refreshDetails(sn)); } } }
   } else home();
   // 滚动：后退时恢复原位置和展开状态；深链滚到那一条；其他情况回到顶部
   if(st && typeof st.y==='number'){ (st.open||[]).forEach(k=>{ const c=document.getElementById('s'+k); if(c) openCard(c,true); }); window.scrollTo(0,st.y); }
@@ -634,12 +644,12 @@ function route(){
 main.addEventListener('click',ev=>{
   const sw=ev.target.closest('[data-sw]'); if(sw){ state[sw.dataset.sw]=!state[sw.dataset.sw]; saveFilters(); const dm=/^#s(\d+)-\d+$/.exec(location.hash); if(dm){ try{ history.replaceState(history.state,'','#s'+dm[1]); }catch(e){} } route(); return; }
   const pb=ev.target.closest('[data-pop]'); if(pb){ ev.preventDefault(); const [k,v]=pb.dataset.pop.split(':'); showPop(pb, k==='grade'?EXPLAIN.grade[v] : (k==='ratio'&&BYKEY[v]) ? ratioPop(BYKEY[v]) : EXPLAIN[k]); return; }
-  const op=ev.target.closest('.open'); if(op){ const c=op.closest('.card'); const on=!c.classList.contains('is-open'); openCard(c,on); if(on){ touch(c.dataset.k); setRead(c,true); } return; }
+  const op=ev.target.closest('.open'); if(op){ const c=op.closest('.card'); const on=!c.classList.contains('is-open'); openCard(c,on); if(on){ touch(c.dataset.k); setRead(c,true); const sn=+c.dataset.k.split('-')[0]; if(!BYKEY[c.dataset.k].loaded) loadSection(sn).then(()=>refreshDetails(sn)); } return; }
   const db=ev.target.closest('.done-b'); if(db){ const c=db.closest('.card'); const on=!db.classList.contains('on'); mark('done',c.dataset.k,on); db.classList.toggle('on',on); db.setAttribute('aria-pressed',on); db.textContent=on?'✓ 已完成':'○ 标为完成'; c.classList.toggle('done',on); return; }
   const fb=ev.target.closest('.fav-b'); if(fb){ const c=fb.closest('.card'); const on=!fb.classList.contains('on'); mark('fav',c.dataset.k,on); fb.classList.toggle('on',on); fb.setAttribute('aria-pressed',on); fb.textContent=on?'★ 已收藏':'☆ 收藏'; return; }
   const rb=ev.target.closest('.read-b'); if(rb){ const c=rb.closest('.card'); setRead(c,!c.classList.contains('read')); return; }
   const tb=ev.target.closest('[data-tab]'); if(tb){ mineTab=tb.dataset.tab; mine(); return; }
-  if(ev.target.id==='open-all'){ main.querySelectorAll('.card').forEach(c=>openCard(c,true)); return; }
+  if(ev.target.id==='open-all'){ main.querySelectorAll('.card').forEach(c=>openCard(c,true)); const sns=new Set([...main.querySelectorAll('.card')].map(c=>+c.dataset.k.split('-')[0])); sns.forEach(sn=>loadSection(sn).then(()=>refreshDetails(sn))); return; }
   if(ev.target.id==='exp-dl'){
     const name=`人生指南记录-${now()}.json`, json=exportJSON(); let file=null; try{ file=new File([json],name,{type:'application/json'}); }catch(e){}
     if(STANDALONE && file && navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file]}).then(()=>msg('已调起系统分享，可选择「存储到文件」或发送给自己。',true)).catch(e=>{ msg(e&&e.name==='AbortError'?'已取消分享。':'分享未成功，请改用「复制 JSON」。'); }); return; }
@@ -662,18 +672,41 @@ window.addEventListener('hashchange',()=>{ if(state.q){ state.q=''; qInput.value
 document.addEventListener('click',ev=>{ const a=ev.target.closest('a[href^="#"]'); if(a && state.q && a.getAttribute('href')===(location.hash||'#home')){ state.q=''; qInput.value=''; route(); } });
 $('#back').addEventListener('click',()=>{ if(history.length>1) history.back(); else location.hash='#home'; });
 
-/* ---------- 载入 ---------- */
+/* ---------- 载入：先取轻量索引（标题、说人话、标签），详情按节加载 ---------- */
+const SEC_LOADED={}, SEC_PROMISE={}; let ALL_LOADED=false;
+function loadSection(n){
+  if(SEC_LOADED[n]) return Promise.resolve();
+  if(SEC_PROMISE[n]) return SEC_PROMISE[n];
+  SEC_PROMISE[n]=fetch(`data/s${n}.json`).then(r=>{ if(!r.ok) throw new Error('s'+n+' '+r.status); return r.json(); }).then(d=>{
+    for(const x of d.entries){ const e=BYKEY[`${n}-${x.n}`]; if(e){ e.cost=x.cost; e.gain=x.gain; e.src=x.src; e.note=x.note; e.loaded=true; } }
+    SEC_LOADED[n]=true;
+  }).catch(err=>{ delete SEC_PROMISE[n]; throw err; });
+  return SEC_PROMISE[n];
+}
+function loadAll(){ return Promise.all(BOOK.map(s=>loadSection(s.n).catch(()=>{}))).then(()=>{ ALL_LOADED=BOOK.every(s=>SEC_LOADED[s.n]); }); }
 function fail(err){ main.innerHTML=`<p class="empty">无法读取正文数据（${esc(err&&err.message||err)}）。<button type="button" id="reload">点这里重新加载</button>　若是直接双击打开的本地文件，需改用 http 方式访问。</p>`; $('#reload').addEventListener('click',()=>location.reload()); window.addEventListener('online',()=>location.reload(),{once:true}); }
-Promise.all([
-  fetch('book.json',{cache:'no-cache'}).then(r=>{ if(!r.ok) throw new Error('book.json '+r.status); return r.json(); }),
-  fetch('docs.json',{cache:'no-cache'}).then(r=>r.ok?r.json():[]).catch(()=>[]),
-]).then(([data,docs])=>{
-  BOOK=data.sections; META=data.meta||{}; DOCS=Array.isArray(docs)?docs:[];
-  for(const s of BOOK) for(const e of s.entries){ e.key=`${s.n}-${e.n}`; BYKEY[e.key]=e; }
+// 带进度的读取：显示已接收多少，超过 12 秒提示网络慢并给重试
+function fetchWithProgress(url, label){
+  const box=$('#loading'); const t0=Date.now(); let got=0, slow=null;
+  const show=(extra)=>{ if(box) box.innerHTML=`${label}… 已接收 ${(got/1024).toFixed(0)} KB${extra||''}`; };
+  show(); slow=setTimeout(()=>show('<br>网络较慢，仍在等待。<button type="button" id="reload" style="color:var(--accent);text-decoration:underline">重新加载</button>'),12000);
+  box&&box.addEventListener('click',ev=>{ if(ev.target.id==='reload') location.reload(); });
+  return fetch(url).then(r=>{
+    if(!r.ok) throw new Error(url+' '+r.status);
+    if(!r.body||!r.body.getReader) return r.text();
+    const reader=r.body.getReader(); const chunks=[];
+    const pump=()=>reader.read().then(({done,value})=>{ if(done) return; chunks.push(value); got+=value.length; show(); return pump(); });
+    return pump().then(()=>{ const buf=new Uint8Array(got); let o=0; for(const c of chunks){ buf.set(c,o); o+=c.length; } return new TextDecoder('utf-8').decode(buf); });
+  }).then(t=>{ clearTimeout(slow); return JSON.parse(t); });
+}
+fetchWithProgress('data/index.json','正在读取条目索引').then(data=>{
+  BOOK=data.sections; META=data.meta||{};
+  for(const s of BOOK) for(const e of s.entries){ e.key=`${s.n}-${e.n}`; e.loaded=false; BYKEY[e.key]=e; }
   ALL=BOOK.flatMap(s=>s.entries);
   if(META.sha) $('#stamp').textContent=`${META.sha}（${META.date}）`;
   try{ migrate(); }catch(e){ REC=EMPTY(); }
   route();
+  fetch('docs.json').then(r=>r.ok?r.json():[]).then(d=>{ DOCS=Array.isArray(d)?d:[]; const h=(location.hash||'#home').slice(1); if(h==='home'||h==='docs'||/^d/.test(h)) route(); }).catch(()=>{});
 }).catch(fail);
 })();
 </script>
