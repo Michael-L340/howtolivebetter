@@ -1,0 +1,4 @@
+upstream/
+_site/
+.DS_Store
+Thumbs.db

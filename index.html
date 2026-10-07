@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!--ART:start-->
+<title>高性价比人生指南</title>
+<meta name="description" content="670 条标出性价比的人生建议：每条先讲一句说人话，再讲花掉什么、换回什么、证据有多硬。正文出自 eternity4719/HowToLiveBetter，CC BY 4.0。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f3f5f4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#151a1b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="人生指南">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/favicon.png">
+<style>
+/* 布局概念：一本账。每条先给一句「说人话」，详情（成本 / 收益 / 备注）折在下面，来源再单独折一层。 */
+:root{
+  --paper:#f3f5f4;--paper-2:#e9edeb;--card:#ffffff;
+  --ink:#17211f;--ink-2:#4b5754;--ink-3:#7f8a87;--line:#d5dbd8;
+  --accent:#1f6b8a;--accent-soft:rgba(31,107,138,.10);--on-accent:#ffffff;
+  --seal-a:#b3382b;--seal-b:#9a6a12;--seal-c:#7f8a87;
+  --ok:#2f7d4f;--star:#c48a0a;
+  --body:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC","Segoe UI",system-ui,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px);
+  --bar-h:90px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#151a1b;--paper-2:#1d2325;--card:#1b2123;--ink:#e6ebe9;--ink-2:#aeb8b5;--ink-3:#7c8784;--line:#2d3639;
+  --accent:#6fc0dc;--accent-soft:rgba(111,192,220,.14);--on-accent:#0f1a1f;--seal-a:#e2695a;--seal-b:#d9a53f;--seal-c:#8b9693;--ok:#5fbf87;--star:#e2b650;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#151a1b;--paper-2:#1d2325;--card:#1b2123;--ink:#e6ebe9;--ink-2:#aeb8b5;--ink-3:#7c8784;--line:#2d3639;
+  --accent:#6fc0dc;--accent-soft:rgba(111,192,220,.14);--on-accent:#0f1a1f;--seal-a:#e2695a;--seal-b:#d9a53f;--seal-c:#8b9693;--ok:#5fbf87;--star:#e2b650;color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.75 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+code{font-family:var(--mono);font-size:.92em;background:var(--paper-2);padding:0 4px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* 顶栏 */
+.bar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.bar-in{max-width:1080px;margin:0 auto;padding:8px max(16px,var(--sr)) 8px max(16px,var(--sl));display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.back{display:none;width:44px;height:44px;margin-left:-8px;border-radius:50%;align-items:center;justify-content:center;font-size:22px;color:var(--accent)}
+.back.show{display:inline-flex}
+.brand{display:flex;align-items:baseline;gap:8px;white-space:nowrap;min-width:0}
+.brand b{font-size:17px;font-weight:700;color:var(--ink)}
+.brand small{font-size:12px;color:var(--ink-3)}
+.search{flex:1 1 180px;min-width:0;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 12px;min-height:40px}
+.search input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:16px;color:var(--ink);outline:none}
+.search input::placeholder{color:var(--ink-3);font-size:14px}
+.search kbd{font:11px var(--mono);color:var(--ink-3);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+@media (hover:none){.search kbd{display:none}}
+.theme{width:40px;height:40px;border-radius:50%;font-size:17px;color:var(--ink-2);display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);background:var(--card)}
+.nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{padding:9px 10px;border-radius:6px;color:var(--ink-2);font-size:14px;white-space:nowrap;line-height:1.4}
+.nav a.on{background:var(--accent-soft);color:var(--accent)}
+
+.wrap{max-width:1080px;margin:0 auto;padding-block:24px 48px;padding-inline:max(16px,var(--sl)) max(16px,var(--sr))}
+
+/* 首页 */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:32px 40px;align-items:start;margin-bottom:36px}
+.hero-text{min-width:0;max-width:46em}
+.start{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.start h2{font-size:14px;font-weight:700;letter-spacing:.08em;color:var(--ink-3);margin:0 0 4px}
+.start .switches{margin:10px 0 8px}
+.start .hint{margin-bottom:10px}
+.start .hint:last-child{margin-bottom:0}
+.start .resume{margin:0 0 12px;padding:10px 12px;background:var(--accent-soft);border-radius:8px}
+.hero h1{font-size:clamp(28px,4.5vw,40px);line-height:1.2;font-weight:700;margin:0 0 6px;letter-spacing:.01em}
+.hero .tagline{font-size:17px;color:var(--accent);font-weight:600;margin:0 0 16px}
+.hero p{margin:0 0 10px;color:var(--ink-2)}
+.hero .meta-note{font-size:13.5px;color:var(--ink-3);line-height:1.7;margin:0 0 4px}
+.hero p+.meta-note{margin-top:12px}
+.hero .meta-note+.meta-note{margin-top:0}
+.switches{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 8px}
+.sw{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink-2);font-size:14px;min-height:36px}
+.sw i{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink-3);display:inline-block}
+.sw.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.sw.on i{background:var(--accent);border-color:var(--accent)}
+.hint{font-size:13px;color:var(--ink-3);margin:0 0 16px;line-height:1.7}
+.hint b{color:var(--ink-2);font-weight:600}
+.resume{margin:14px 0 0;font-size:14px;color:var(--ink-2);display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
+.resume a{font-weight:600}
+.resume small{color:var(--ink-3)}
+
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px;flex-wrap:wrap}
+.sec-h h2{margin:0;font-size:19px;font-weight:700}
+.sec-h span{font-size:13px;color:var(--ink-3)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.tile{display:flex;flex-direction:column;gap:6px;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:10px;color:var(--ink);min-width:0;transition:border-color .2s}
+.tile:hover{border-color:var(--accent);text-decoration:none}
+.tile .no{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.tile .no b{font-size:18px;line-height:1;margin:0 2px}
+.tile .t{font-size:16px;font-weight:700;line-height:1.35;text-wrap:balance}
+.tile .m{display:flex;gap:10px;font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums;margin-top:auto}
+.tile .m b{color:var(--accent);font-weight:600}
+
+/* 首页底部：关于本站 */
+.about-site{margin-top:40px;padding-top:22px;border-top:1px solid var(--line)}
+.about-site h2{font-size:15px;font-weight:700;color:var(--ink-2);margin:0 0 10px}
+.about-site p{font-size:13.5px;color:var(--ink-3);margin:0 0 10px;max-width:60em}
+.stats{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums;margin:0 0 10px}
+.stats b{color:var(--ink-2);font-weight:600;font-family:var(--mono);margin-left:4px}
+
+/* 页标题区 */
+.crumb{font-size:13px;color:var(--ink-3);margin:0 0 6px}
+.page-title{font-size:clamp(22px,3.6vw,30px);line-height:1.25;font-weight:700;margin:0 0 12px;text-wrap:balance}
+.intro{color:var(--ink-2);max-width:42em;border-left:2px solid var(--line);padding-left:14px;margin:0 0 8px}
+.intro p{margin:0 0 8px}
+.more{font-size:13px;color:var(--accent);margin:0 0 18px;padding-left:16px}
+.more summary{cursor:pointer}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 14px;font-size:13px;color:var(--ink-3)}
+.toolbar button{color:var(--accent);padding:6px 0}
+.count{font-variant-numeric:tabular-nums}
+
+/* 卡片 */
+.list{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px 10px;min-width:0;scroll-margin-top:calc(var(--bar-h) + 8px)}
+.card.hit{box-shadow:0 0 0 2px var(--accent)}
+.card.done h3{color:var(--ink-3)}
+.card.read{border-color:var(--paper-2)}
+.card.read .human{color:var(--ink-2)}
+.eyebrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--ink-3);margin:0 0 8px}
+.eyebrow .n{font-family:var(--mono)}
+.readtag{display:none;margin-left:auto;font-size:11px;color:var(--ink-3);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+.card.read .readtag{display:inline-block}
+.seal,.ratio,.lens{position:relative}
+.seal::after,.ratio::after,.lens::after{content:"";position:absolute;inset:-11px -5px -5px}
+.seal{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border:1.5px solid var(--seal-c);color:var(--seal-c);border-radius:3px;font-weight:700;font-size:12px;line-height:1}
+.seal.A{border-color:var(--seal-a);color:var(--seal-a)}
+.seal.B{border-color:var(--seal-b);color:var(--seal-b)}
+.ratio{padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2)}
+.ratio.r3{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.ratio.r2{border-color:var(--accent);color:var(--accent)}
+.ratio.clickable{text-decoration:underline dotted;text-underline-offset:3px}
+.lens{color:var(--ink-2);display:inline-flex;gap:4px;align-items:baseline}
+.lens i{font-style:normal;color:var(--ink-3);font-size:11px}
+.card h3{margin:0 0 8px;font-size:18px;line-height:1.45;font-weight:700;text-wrap:balance}
+.card h3 a{color:inherit}
+.human{margin:0;font-size:16.5px;line-height:1.85;color:var(--ink);max-width:40em}
+mark{background:var(--accent-soft);color:inherit;padding:0 1px;border-radius:2px}
+.costs{margin:12px 0 0;display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12.5px}
+.costs .k{color:var(--ink-3);margin-right:2px}
+.chip{display:inline-flex;gap:5px;align-items:baseline;border:1px solid var(--line);border-radius:6px;padding:1px 8px;color:var(--ink-2);background:var(--paper)}
+.chip i{font-style:normal;color:var(--ink-3);font-size:11px}
+.acts{display:flex;gap:2px;align-items:center;margin-top:6px;flex-wrap:wrap}
+.acts button{font-size:13px;padding:6px 10px;border-radius:6px;color:var(--ink-2);display:inline-flex;gap:5px;align-items:center;min-height:40px}
+.acts button:hover{background:var(--accent-soft)}
+.acts .open{color:var(--accent);font-weight:600}
+.acts .open::before{content:"";width:0;height:0;border:4px solid transparent;border-left:6px solid currentColor;transition:transform .2s}
+.card.is-open .open::before{transform:rotate(90deg)}
+.acts .done-b.on{color:var(--ok);font-weight:600}
+.acts .fav-b.on{color:var(--star);font-weight:600}
+.acts .read-b{color:var(--ink-3)}
+.detail{display:none;margin-top:8px;border-top:1px dashed var(--line);padding-top:12px;font-size:14px;color:var(--ink-2)}
+.card.is-open .detail{display:block}
+.detail p{margin:0 0 10px;overflow-wrap:anywhere}
+.lbl{font-size:12px;font-weight:600;letter-spacing:.1em;color:var(--ink-3);margin:0 0 2px}
+.src{font-size:13px;color:var(--ink-3)}
+.src summary{cursor:pointer;color:var(--accent);list-style:none;display:inline-flex;gap:6px;align-items:center;padding:8px 0}
+.src summary::-webkit-details-marker{display:none}
+.src summary::before{content:"";width:0;height:0;border:4px solid transparent;border-left:6px solid currentColor}
+.src[open] summary::before{transform:rotate(90deg)}
+.src div{margin-top:2px;overflow-wrap:anywhere}
+.xref{border-bottom:1px dotted var(--accent);color:var(--accent)}
+
+/* 弹层 */
+.pop{position:fixed;z-index:20;max-width:min(380px,calc(100vw - 32px));background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--ink-2);box-shadow:0 8px 24px rgba(0,0,0,.14);line-height:1.65}
+.pop b{color:var(--ink)}
+.pop p{margin:0 0 6px}
+.pop a{display:inline-block;margin-top:4px}
+.clickable{cursor:help}
+
+/* 说明与长文 */
+.doc{max-width:46em;color:var(--ink-2);overflow-wrap:anywhere}
+.doc h2{font-size:19px;color:var(--ink);margin:26px 0 8px}
+.doc h3{font-size:16px;color:var(--ink);margin:18px 0 6px}
+.doc h4{font-size:15px;color:var(--ink);margin:14px 0 4px}
+.doc p,.doc li{margin:0 0 8px}
+.doc ol,.doc ul{padding-left:1.4em}
+.doc blockquote{margin:0 0 10px;padding-left:12px;border-left:2px solid var(--line)}
+.doc table{border-collapse:collapse;font-size:13.5px;margin:0 0 12px;min-width:100%}
+.doc th,.doc td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.doc th{background:var(--paper-2);color:var(--ink)}
+.tbl{overflow-x:auto;margin:0 0 12px}
+.doc hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+.legend{display:grid;grid-template-columns:auto 1fr;gap:10px 12px;align-items:start;margin:0 0 12px}
+
+/* 我的 */
+.tabs{display:flex;gap:4px;margin:0 0 14px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{padding:9px 12px;color:var(--ink-2);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs button.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+.io{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 0;align-items:center}
+.io button,.io label{font-size:13px;padding:8px 12px;border:1px solid var(--line);border-radius:6px;color:var(--ink-2);background:var(--card);cursor:pointer;min-height:40px;display:inline-flex;align-items:center}
+.io input[type=file]{display:none}
+.io textarea{width:100%;min-height:90px;font:16px var(--mono);border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);padding:8px;margin-top:8px}
+.notice{font-size:13px;color:var(--ink-3);margin:8px 0 0}
+.notice.ok{color:var(--ok)}
+.orphan{font-size:13px;color:var(--ink-3);padding:10px 14px;border:1px dashed var(--line);border-radius:8px}
+
+.empty{padding:40px 0;color:var(--ink-3);text-align:center}
+.empty button{color:var(--accent);text-decoration:underline}
+.loading{padding:40px 0;color:var(--ink-3);text-align:center;font-size:14px}
+
+.foot{max-width:1080px;margin:0 auto;padding:22px max(16px,var(--sr)) calc(28px + env(safe-area-inset-bottom,0px)) max(16px,var(--sl));border-top:1px solid var(--line);font-size:13px;color:var(--ink-3)}
+.foot p{margin:0 0 6px;max-width:60em}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;gap:20px}
+  .start{padding:14px 14px}
+}
+@media (max-width:760px){
+  .nav{order:3;width:100%;justify-content:flex-start}
+  .card{padding:14px 14px 8px}
+  .card h3{font-size:17px}
+  .human{font-size:16px}
+  .brand small{display:none}
+}
+</style>
+<!--ART:head-end-->
+</head>
+<body>
+<!--ART:body-start-->
+<header class="bar">
+  <div class="bar-in">
+    <button class="back" id="back" type="button" aria-label="返回">‹</button>
+    <a class="brand" href="#home"><b>高性价比人生指南</b><small>670 条，逐条标出性价比</small></a>
+    <label class="search"><span aria-hidden="true">⌕</span><input id="q" type="search" placeholder="搜条目、说人话、收益… 比如「担保」" autocomplete="off" enterkeyhint="search"><kbd>/</kbd></label>
+    <button class="theme" id="theme" type="button" aria-label="切换亮色或暗色" title="切换亮色或暗色">☾</button>
+    <nav class="nav" id="nav"><a href="#home" data-r="home">目录</a><a href="#top" data-r="top">性价比极高</a><a href="#docs" data-r="docs">长文</a><a href="#mine" data-r="mine">我的</a><a href="#about" data-r="about">说明</a></nav>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <div class="loading" id="loading">正在读取 670 条…</div>
+</main>
+
+<footer class="foot">
+  <p>正文出自 <a href="https://github.com/eternity4719/HowToLiveBetter" target="_blank" rel="noopener">eternity4719/HowToLiveBetter</a>，按 <a href="https://creativecommons.org/licenses/by/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY 4.0</a> 许可使用。本站只重排版式，未改动任何条目文字；数据截至上游 <span id="stamp">—</span>。非官方站，以原仓库中文原文为准。</p>
+  <p>证据等级和性价比档的含义见<a href="#about">说明</a>。性价比档是原作者的判断，不代表证据强度。已完成、收藏、已阅、最近浏览等记录只保存在本设备的浏览器里，本站不收集任何数据。</p>
+</footer>
+
+<script>
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const main=$('#main'), qInput=$('#q'), BAR=$('.bar');
+const setBarH=()=>document.documentElement.style.setProperty('--bar-h',BAR.offsetHeight+'px');
+setBarH(); if('ResizeObserver' in window) new ResizeObserver(setBarH).observe(BAR); else window.addEventListener('resize',setBarH);
+let BOOK=[], ALL=[], DOCS=[], META={}, BYKEY={};
+const STANDALONE = !!(window.navigator.standalone) || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+const state={ q:'', money:false, time:false, will:false, gradeA:false, hideRead:false };
+try{ const f=JSON.parse(localStorage.getItem('hltb.filters')||'{}'); for(const k of ['money','time','will','gradeA','hideRead']) state[k]=!!f[k]; }catch(e){}
+function saveFilters(){ try{ localStorage.setItem('hltb.filters', JSON.stringify({money:state.money,time:state.time,will:state.will,gradeA:state.gradeA,hideRead:state.hideRead})); }catch(e){} }
+
+/* ---------- 主题：默认跟随系统，点过就记住 ---------- */
+const root=document.documentElement, themeBtn=$('#theme');
+function curTheme(){ const t=root.getAttribute('data-theme'); if(t==='dark'||t==='light') return t; return (window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'; }
+function applyTheme(t){ if(t) root.setAttribute('data-theme',t); const dark=curTheme()==='dark'; themeBtn.textContent=dark?'☀':'☾'; themeBtn.title=dark?'切换到亮色':'切换到暗色'; }
+try{ const t=localStorage.getItem('hltb.theme'); applyTheme(t==='dark'||t==='light'?t:null); }catch(e){ applyTheme(null); }
+themeBtn.addEventListener('click',()=>{ const t=curTheme()==='dark'?'light':'dark'; applyTheme(t); try{ localStorage.setItem('hltb.theme',t); }catch(e){} });
+if(window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>applyTheme(null));
+
+/* ---------- 本机记录：已完成 / 收藏 / 已阅 / 最近浏览 / 上次位置 ---------- */
+const EMPTY=()=>({ v:1, done:{}, fav:{}, read:{}, recent:[], last:null });
+let REC=EMPTY();
+try{ const r=JSON.parse(localStorage.getItem('hltb.records')||'null');
+  const obj=x=>{ const o={}; if(x&&typeof x==='object'&&!Array.isArray(x)) for(const [k,v] of Object.entries(x)) if(v&&typeof v==='object') o[k]=v; return o; };
+  if(r&&r.v===1) REC={ v:1, done:obj(r.done), fav:obj(r.fav), read:obj(r.read), recent:Array.isArray(r.recent)?r.recent.filter(x=>x&&typeof x.key==='string'):[], last:(r.last&&typeof r.last.key==='string')?r.last:null };
+}catch(e){}
+function saveRec(){ try{ localStorage.setItem('hltb.records', JSON.stringify(REC)); }catch(e){} }
+const now=()=>new Date().toISOString().slice(0,10);
+function mark(kind,key,on){ const e=BYKEY[key]; if(!e) return; if(on) REC[kind][key]={title:e.title,t:now()}; else delete REC[kind][key]; saveRec(); }
+function touch(key){ const e=BYKEY[key]; if(!e) return; REC.recent=REC.recent.filter(r=>r.key!==key); REC.recent.unshift({key,title:e.title,t:now()}); REC.recent=REC.recent.slice(0,60); saveRec(); }
+// 上游可能插条、改序、改标题。记录里存着标题快照：位置对不上时，在同一节里按标题找回来；找不到就标 lost，不硬配。
+function lcs(a,b){ const dp=new Array(b.length+1).fill(0); for(let i=1;i<=a.length;i++){ let prev=0; for(let j=1;j<=b.length;j++){ const tmp=dp[j]; dp[j]= a[i-1]===b[j-1] ? prev+1 : Math.max(dp[j],dp[j-1]); prev=tmp; } } return dp[b.length]; }
+const norm=t=>String(t||'').replace(/[\s\p{P}\p{S}\d]/gu,'');
+function resolve(key,title){
+  if(typeof key!=='string') return null;
+  const e=BYKEY[key]; if(e && (!title || e.title===title)) return key;
+  if(!title) return null;
+  const sn=+key.split('-')[0]; const s=BOOK.find(x=>x.n===sn); if(!s) return null;
+  const ex=s.entries.find(c=>c.title===title); if(ex) return `${sn}-${ex.n}`;
+  const t=norm(title); let best=null,b1=0,b2=0;
+  for(const c of s.entries){ const ct=norm(c.title), m=Math.min(ct.length,t.length); if(!m) continue; const l=lcs(ct,t); const sc = l>=Math.max(6,Math.ceil(0.7*m)) ? l/m : 0; if(sc>b1){ b2=b1; b1=sc; best=c; } else if(sc>b2) b2=sc; }
+  return best && b1-b2>=0.2 ? `${sn}-${best.n}` : null;
+}
+function migrate(){
+  let changed=false;
+  for(const kind of ['done','fav','read']){ const out={};
+    for(const [k,v] of Object.entries(REC[kind])){ const k0=v.lost?(v.key0||k.replace(/^lost:/,'')):k; const nk=resolve(k0,v.title);
+      if(nk){ if(!out[nk] || (v.t||'')>(out[nk].t||'')) out[nk]={title:BYKEY[nk].title,orig:v.orig||v.title,t:v.t}; if(nk!==k||v.title!==BYKEY[nk].title||v.lost) changed=true; }
+      else { const lk='lost:'+k0; if(!out[lk]) out[lk]=Object.assign({},v,{lost:true,key0:k0}); if(lk!==k) changed=true; } }
+    REC[kind]=out; }
+  const seen=new Set(), nr=[];
+  for(const r of REC.recent){ const nk=resolve(r.lost?(r.key0||r.key):r.key,r.title); const x= nk ? {key:nk,title:BYKEY[nk].title,t:r.t} : Object.assign({},r,{lost:true,key0:r.key0||r.key}); if(nk&&(nk!==r.key||r.title!==x.title||r.lost)) changed=true; if(!nk&&!r.lost) changed=true; nr.push(x); }
+  nr.sort((a,b)=>(b.t||'').localeCompare(a.t||''));
+  REC.recent=nr.filter(r=>{ if(r.lost) return true; if(seen.has(r.key)){ changed=true; return false; } seen.add(r.key); return true; });
+  if(REC.last){ const nk=resolve(REC.last.key,REC.last.title); const nl = nk ? Object.assign({},REC.last,{key:nk,title:BYKEY[nk].title}) : null; if(JSON.stringify(nl)!==JSON.stringify(REC.last)) changed=true; REC.last=nl; }
+  if(changed) saveRec();
+}
+
+/* ---------- 文案 ---------- */
+const LENS={'死亡率':'寿命','金钱':'钱','时间':'时间精力','自由':'人身自由'};
+const RLV={'极高':'r3','高':'r2','一般':'r1'};
+const COSTW={money:{'0':'不花钱','少':'几十到几百元','多':'千元以上'},time:{'少':'几分钟','中':'一次数小时','多':'每天持续占用'},will:{'否':'一次性','些':'需改变习惯','是':'需长期坚持'}};
+const W={money:{'0':0,'少':1,'多':2},time:{'少':0,'中':1,'多':2},will:{'否':0,'些':1,'是':2}};
+const RULE='钱、时间、毅力各按最低 / 中间 / 最高档记 0 / 1 / 2 分。好处大且合计 0 分 = <b>极高</b>；好处大且合计不超过 2 分，或好处中等且 0 分 = <b>高</b>；其余 = <b>一般</b>。';
+const LENS_EXPL='<p><b>寿命</b>：降低死亡风险，或少生病、少出意外。<b>钱</b>：省下钱，或把钱要回来。<b>时间精力</b>：省下时间和注意力。<b>人身自由</b>：不被拘留、不摊上官司、不被骗进圈套。</p>';
+const EXPLAIN={
+  grade:{A:'<b>证据等级 A</b><p>有具体数字可查。出处是多项研究合并起来的分析、跟踪很多人很多年的大型研究，或者随机分组的试验。法律类条目的 A 指引到了法条或官方文件原文。</p>',
+         B:'<b>证据等级 B</b><p>有研究支持，但说不出一个确切数字；或者只有小样本、单独一项研究撑着。</p>',
+         C:'<b>证据等级 C</b><p>作者自己的经验，或者大家公认的做法，没有直接的研究文献。</p>'},
+  ratio:`<b>性价比档怎么定</b><p>${RULE}</p><p>这是原作者的判断，不代表证据强度。「一般」不等于不该做，只是那笔花销是否值得需要自行判断。</p>`,
+  lens:'<b>换回什么</b><p>每条建议都是用成本换回一样东西。这个标记写的就是这条主要换回哪一类：</p>'+LENS_EXPL+'<p>不同类别之间不比大小，「死亡率降 12%」和「每年省 500 元」不在一把尺子上。</p>',
+};
+function ratioPop(e){ const m=W.money[e.money]??0,t=W.time[e.time]??0,w=W.will[e.will]??0; return `<b>这条：性价比 ${e.ratio}</b><p>好处 <b>${e.level||'未标'}</b>；成本 钱 ${m} + 时间 ${t} + 毅力 ${w} = <b>${m+t+w}</b> 分</p>`+EXPLAIN.ratio; }
+const RATIO_NOTE=`<p class="hint">性价比档：${RULE} 点卡片上的「性价比」看这条怎么算的，详见<a href="#about">说明</a>。</p>`;
+
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const dHref=d=>'#d/'+encodeURIComponent(d.file.replace(/\.md$/,''));
+function hrefOf(u, base){ // 长文和正文里指向仓库文件的相对链接改成站内地址
+  let m;
+  if((m=/^\.\.\/book\/(\d+)-[^#)]*\.md/.exec(u))) return `#s${+m[1]}`;
+  if(/^\.\.\/README\.md/.test(u)) return '#home';
+  if((m=/^\.\.\/docs\/([^#)]+)\.md/.exec(u))){ let f=''; try{ f=decodeURIComponent(m[1])+'.md'; }catch(e){} const d=DOCS.find(x=>x.file===f); return d?dHref(d):'https://github.com/eternity4719/HowToLiveBetter/blob/main/docs/'+m[1]+'.md'; }
+  if(/^https?:/.test(u)) return u;
+  return 'https://github.com/eternity4719/HowToLiveBetter/blob/main/'+(u.startsWith('../')?u.slice(3):(base||'')+u);
+}
+const LAW_CTX=/(?:》|号|解释|意见|规定|条例|办法|[^援]法)\s?[，,]?\s?$/;
+// 正文里的标记：**粗体**、<url>、[文字](url)、裸 url、`代码`，以及「见第 X 节第 Y 条」「第 Y 条」的互相指路。secN=0 表示长文。
+function rich(s, secN, q){
+  let h=esc(s);
+  h=h.replace(/\\([*_])/g,(m,c)=>c==='*'?'&#42;':'&#95;');
+  const base = secN===0 ? 'docs/' : 'book/';
+  h=h.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,(m,t,u)=>{ const href=hrefOf(u,base); const ext=/^https?:/.test(href); return `<a href="${esc(href)}"${ext?' target="_blank" rel="noopener"':''}>${t}</a>`; });
+  h=h.replace(/&lt;(https?:(?:(?!&gt;)\S)+?)&gt;/g,(m,u)=>`<a href="${u}" target="_blank" rel="noopener">${u}</a>`);
+  h=h.replace(/(^|[^"=>\w])(https?:\/\/(?:(?!&gt;|&lt;)[^\s<）)，。；、])+)/g,(m,p,u)=>`${p}<a href="${u}" target="_blank" rel="noopener">${u}</a>`);
+  h=h.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
+  h=h.replace(/第\s?(\d+)\s?节第\s?(\d+)\s?条/g,(m,a,b)=>BYKEY[`${a}-${b}`]?`<a class="xref" href="#s${a}-${b}">${m}</a>`:m);
+  if(secN) h=h.replace(/(^|[^节\d])第\s?(\d+)\s?条(?!<\/a>)/g,(m,p,b,off,str)=>(LAW_CTX.test(str.slice(Math.max(0,off-10),off+p.length)) || !BYKEY[`${secN}-${b}`]) ? m : `${p}<a class="xref" href="#s${secN}-${b}">第 ${b} 条</a>`);
+  if(q){ const re=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'); h=h.replace(/(<[^>]*>)|([^<]+)/g,(m,tag,txt)=>tag||txt.split(/(&(?:[a-z]+|#\d+);)/).map((p,i)=>i%2?p:p.replace(re,x=>`<mark>${x}</mark>`)).join('')); }
+  return h;
+}
+function pass(e){
+  if(state.money && e.money!=='0') return false;
+  if(state.time && e.time!=='少') return false;
+  if(state.will && e.will!=='否') return false;
+  if(state.gradeA && e.grade!=='A') return false;
+  if(state.hideRead && REC.read[e.key]) return false;
+  if(state.q){ const t=(e.title+'\n'+e.human+'\n'+e.cost+'\n'+e.gain+'\n'+e.note).toLowerCase(); if(!t.includes(state.q.toLowerCase())) return false; }
+  return true;
+}
+function srcCount(s){ return (s.match(/https?:\/\//g)||[]).length; }
+
+function card(e, sec, q, showSec){
+  const key=e.key; const done=!!REC.done[key], fav=!!REC.fav[key], read=!!REC.read[key];
+  const chip=(k,v)=>`<span class="chip"><i>${k}</i>${v}</span>`;
+  const nsrc=srcCount(e.src);
+  return `<article class="card ${done?'done':''} ${read?'read':''}" id="s${key}" data-k="${key}">
+    <div class="eyebrow"><button class="seal ${e.grade} clickable" type="button" data-pop="grade:${e.grade}" title="证据等级 ${e.grade}，点击查看解释">${e.grade}</button><button class="ratio ${RLV[e.ratio]} clickable" type="button" data-pop="ratio:${key}" title="点击查看这条的分档计算">性价比 ${e.ratio}</button><button class="lens clickable" type="button" data-pop="lens" title="点击查看四种口径的含义"><i>换回</i>${LENS[e.lens]||'未标'}</button><span class="n">${showSec?`第 ${sec.n} 节 · `:''}第 ${e.n} 条</span>${e.dispute?'<span class="n">· 有争议</span>':''}<span class="readtag">已阅</span></div>
+    <h3><a href="#s${key}">${rich(e.title,sec.n,q)}</a></h3>
+    <p class="human">${rich(e.human,sec.n,q)}</p>
+    <p class="costs"><span class="k">成本</span>${chip('钱',COSTW.money[e.money]||'未标')}${chip('时间',COSTW.time[e.time]||'未标')}${chip('毅力',COSTW.will[e.will]||'未标')}</p>
+    <div class="acts">
+      <button class="open" type="button" aria-expanded="false">详情</button>
+      <button class="done-b ${done?'on':''}" type="button" aria-pressed="${done}">${done?'✓ 已完成':'○ 标为完成'}</button>
+      <button class="fav-b ${fav?'on':''}" type="button" aria-pressed="${fav}">${fav?'★ 已收藏':'☆ 收藏'}</button>
+      <button class="read-b" type="button" title="浏览过的条目会自动标为已阅，可在此手动更改">${read?'标为未阅':'标为已阅'}</button>
+    </div>
+    <div class="detail">
+      <p class="lbl">成本</p><p>${rich(e.cost,sec.n,q)}</p>
+      <p class="lbl">收益</p><p>${rich(e.gain,sec.n,q)}</p>
+      ${e.note?`<p class="lbl">备注</p><p>${rich(e.note,sec.n,q)}</p>`:''}
+      <details class="src"><summary>来源${nsrc?`（${nsrc} 条）`:''}</summary><div>${rich(e.src,sec.n,q)}</div></details>
+    </div>
+  </article>`;
+}
+function switches(){
+  const sw=(k,label)=>`<button class="sw ${state[k]?'on':''}" data-sw="${k}" type="button" aria-pressed="${state[k]}"><i></i>${label}</button>`;
+  return `<div class="switches">${sw('money','不花钱')}${sw('time','不费时间')}${sw('will','不费毅力')}${sw('gradeA','仅 A 级证据')}${sw('hideRead','隐藏已阅')}</div>`;
+}
+const crumb=(t)=>`<p class="crumb"><a href="#home">目录</a> / ${t}</p>`;
+const activeFilters=()=>state.money||state.time||state.will||state.gradeA||state.hideRead;
+
+/* ---------- 页面 ---------- */
+function home(){
+  const tiles=BOOK.map(s=>{
+    const n=s.entries.filter(pass).length, t=s.entries.filter(e=>pass(e)&&e.ratio==='极高').length;
+    return `<a class="tile" href="#s${s.n}"><span class="no">第<b>${s.n}</b>节</span><span class="t">${esc(s.title)}</span><span class="m"><span>${n} 条</span>${t?`<span><b>${t}</b> 条极高</span>`:''}</span></a>`;
+  }).join('');
+  const nDone=Object.values(REC.done).filter(v=>!v.lost).length, nRead=Object.values(REC.read).filter(v=>!v.lost).length;
+  const last=REC.last&&BYKEY[REC.last.key]?REC.last:null;
+  main.innerHTML=`
+  <section class="hero">
+   <div class="hero-text">
+    <h1>高性价比人生指南</h1>
+    <p class="tagline">${esc(META.tagline||'用最少的钱、时间和精力，换回最多的寿命、金钱和人身自由')}</p>
+    <p>${esc(META.description||'讲怎么活得久、怎么少生病，出了意外怎么救。讲怎么少花冤枉钱，哪些事会让人被骗、摊上官司。讲没工作没钱时能去领什么，开店、开公司、做网站要办什么手续。也讲恋爱结婚生孩子、出国和学手艺。法律、医保、社保这些制度上的内容，按中国大陆的现行规定写。')}</p>
+    <p class="meta-note">${esc(META.descNote||'670 条建议，每条写明花掉什么、换回什么、证据有多硬，来源只引期刊论文和官方文件。')}</p>
+    <p class="meta-note">${esc(META.howto||'不用全做：这是按性价比排好的备选单，不是任务清单。挑走一两条就算数。')}</p>
+   </div>
+   <aside class="start" aria-label="从这里开始">
+    <h2>从这里开始</h2>
+    ${last?`<p class="resume"><a href="#s${last.key}">继续上次阅读 ›</a> 第 ${last.key.replace('-',' 节第 ')} 条「${esc(last.title)}」<small>${esc(last.t||'')}</small></p>`:''}
+    ${switches()}
+    <p class="hint">${activeFilters()?`当前筛出 <b>${ALL.filter(pass).length}</b> 条。`:'想先挑省力的，打开前三个筛选条件，剩下的就是不花钱、不费时间、不费毅力的条目。筛选条件会被记住，在各节中同样生效。'}</p>
+    <p class="hint">性价比档：${RULE} 点卡片上的「性价比」看那条怎么算的，详见<a href="#about">说明</a>。</p>
+   </aside>
+  </section>
+  <div class="sec-h"><h2>按章节浏览</h2><span>每节按原书顺序排列，每条标出性价比档</span></div>
+  <div class="grid">${tiles}</div>
+  <section class="about-site">
+    <h2>关于本站</h2>
+    <p>本站是这本书的在线阅读版：每条先给一句说人话，再展开成本、收益和来源。正文每天早上自动同步上游，未改动任何条目文字。</p>
+    <div class="stats"><span>条目<b>${META.count||ALL.length}</b></span><span>节<b>${BOOK.length}</b></span><span>证据 A 级<b>${META.grade?META.grade.A:'-'}</b></span><span>性价比极高<b>${META.ratio?META.ratio['极高']:'-'}</b></span><span>长文<b>${DOCS.length}</b></span><span>已阅<b>${nRead}</b></span><span>已完成<b>${nDone}</b></span></div>
+    <p>数据截至上游 ${esc(META.sha||'')}（${esc(META.date||'')}）。</p>
+  </section>`;
+}
+function section(n){
+  const s=BOOK.find(x=>x.n===n); if(!s){ main.innerHTML='<p class="empty">没有这一节。</p>'; return; }
+  const list=s.entries.filter(pass);
+  const isGroup=p=>/^\*\*.*\*\*[：:]/.test(p);
+  const intro=s.intro.filter(p=>!isGroup(p)&&!/^本节条目按主题分成/.test(p)), groups=s.intro.filter(isGroup);
+  main.innerHTML=`
+  ${crumb(`第 ${s.n} 节`)}
+  <h1 class="page-title">${esc(s.title)}</h1>
+  <div class="intro">${intro.map(p=>`<p>${rich(p,s.n)}</p>`).join('')}</div>
+  ${groups.length?`<details class="more"><summary>本节分组</summary><div class="intro" style="margin-top:8px">${groups.map(p=>`<p>${rich(p,s.n)}</p>`).join('')}</div></details>`:'<div style="height:14px"></div>'}
+  ${switches()}
+  ${RATIO_NOTE}
+  <div class="toolbar"><span class="count">${list.length} / ${s.entries.length} 条</span><span>·</span><button type="button" id="open-all">全部展开详情</button></div>
+  <div class="list">${list.length?list.map(e=>card(e,s,'',false)).join(''):'<p class="empty">当前筛选条件下本节没有条目，可取消部分筛选。</p>'}</div>`;
+}
+function results(){
+  const q=state.q, rows=[];
+  for(const s of BOOK) for(const e of s.entries) if(pass(e)) rows.push(card(e,s,q,true));
+  const dh=DOCS.filter(d=>d.title.includes(q)||d.md.includes(q));
+  main.innerHTML=`
+  ${crumb('搜索')}
+  <h1 class="page-title">「${esc(q)}」</h1>
+  ${switches()}
+  <div class="toolbar"><span class="count">${rows.length} 条</span>${dh.length?`<span>· 长文里也提到：${dh.map(d=>`<a href="${dHref(d)}">${esc(d.title.split('：')[0])}</a>`).join('、')}</span>`:''}</div>
+  <div class="list">${rows.length?rows.join(''):'<p class="empty">没有匹配的条目。试试换个关键词，例如把「借钱」换成「借条」。</p>'}</div>`;
+}
+function topOnly(){
+  const rows=[]; for(const s of BOOK) for(const e of s.entries) if(e.ratio==='极高'&&pass(e)) rows.push(card(e,s,'',true));
+  main.innerHTML=`
+  ${crumb('性价比极高')}
+  <h1 class="page-title">性价比极高：零成本、高收益</h1>
+  <p class="intro">「极高」是原作者划分的性价比档位，不代表证据强度。证据强弱看每条旁边的等级：A 有具体数字可查，C 是作者经验或公认做法。</p>
+  ${switches()}
+  ${RATIO_NOTE}
+  <div class="toolbar"><span class="count">${rows.length} 条</span></div>
+  <div class="list">${rows.join('')}</div>`;
+}
+function docsPage(){
+  main.innerHTML=`
+  ${crumb('长文')}
+  <h1 class="page-title">长文</h1>
+  <p class="intro">把散在各节里的条目，按一件事的先后顺序串成一篇。每一步只写做什么，数字和依据都在它指向的那一条里。</p>
+  <div class="grid" style="margin-top:16px">${DOCS.map(d=>{ const [t,sub]=d.title.split('：'); return `<a class="tile" href="${dHref(d)}"><span class="no">长文<b>${d.n}</b></span><span class="t">${esc(t)}</span>${sub?`<span class="m">${esc(sub)}</span>`:''}</a>`; }).join('')}</div>`;
+}
+// 迷你 Markdown：标题、段落、有序/无序列表、引用、表格、分割线
+function md(src){
+  const lines=src.split('\n'); const out=[]; let i=0;
+  const inl=s=>rich(s,0);
+  while(i<lines.length){
+    const l=lines[i];
+    if(!l.trim()){ i++; continue; }
+    if(/^# /.test(l)){ i++; continue; }
+    let m;
+    if((m=/^(#{2,4}) (.*)$/.exec(l))){ const lv=m[1].length; out.push(`<h${lv}>${inl(m[2])}</h${lv}>`); i++; continue; }
+    if(/^---+$/.test(l.trim())){ out.push('<hr>'); i++; continue; }
+    if(/^\|/.test(l)){ const rows=[]; while(i<lines.length&&/^\|/.test(lines[i])){ rows.push(lines[i]); i++; }
+      const cells=r=>r.replace(/^\||\|$/g,'').split('|').map(c=>c.trim());
+      const head=cells(rows[0]); const body=rows.slice(1).filter(r=>!/^\|\s*:?-+/.test(r)).map(cells);
+      out.push(`<div class="tbl"><table><thead><tr>${head.map(c=>`<th>${inl(c)}</th>`).join('')}</tr></thead><tbody>${body.map(r=>`<tr>${r.map(c=>`<td>${inl(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`); continue; }
+    if(/^\d+\. /.test(l)){ const items=[]; while(i<lines.length&&/^\d+\. /.test(lines[i])){ items.push(lines[i].replace(/^\d+\. /,'')); i++; } out.push(`<ol>${items.map(x=>`<li>${inl(x)}</li>`).join('')}</ol>`); continue; }
+    if(/^[-*] /.test(l)){ const items=[]; while(i<lines.length&&/^[-*] /.test(lines[i])){ items.push(lines[i].replace(/^[-*] /,'')); i++; } out.push(`<ul>${items.map(x=>`<li>${inl(x)}</li>`).join('')}</ul>`); continue; }
+    if(/^> /.test(l)){ const ps=[]; while(i<lines.length&&/^> ?/.test(lines[i])){ ps.push(lines[i].replace(/^> ?/,'')); i++; } out.push(`<blockquote><p>${inl(ps.join(' '))}</p></blockquote>`); continue; }
+    const ps=[]; while(i<lines.length&&lines[i].trim()&&!/^(#{1,4} |\||\d+\. |[-*] |> |---)/.test(lines[i])){ ps.push(lines[i]); i++; }
+    out.push(`<p>${inl(ps.join(' '))}</p>`);
+  }
+  return out.join('\n');
+}
+function docPage(d){
+  if(!d){ main.innerHTML=`${crumb('<a href="#docs">长文</a>')}<p class="empty">没有这篇长文，可能上游改了文件名。<a href="#docs">看全部长文</a></p>`; return; }
+  main.innerHTML=`${crumb('<a href="#docs">长文</a>')}<h1 class="page-title">${esc(d.title)}</h1><div class="doc">${md(d.md)}</div>
+  <p class="notice">原文：<a href="https://github.com/eternity4719/HowToLiveBetter/blob/main/docs/${encodeURIComponent(d.file)}" target="_blank" rel="noopener">docs/${esc(d.file)}</a></p>`;
+}
+function about(){
+  const exA=ALL.find(e=>e.grade==='A'&&e.ratio==='一般'), exC=ALL.find(e=>e.grade==='C'&&e.ratio==='极高');
+  const ex=(e)=>e?`<a href="#s${e.key}">${esc(e.title)}</a>`:'';
+  main.innerHTML=`${crumb('说明')}<h1 class="page-title">说明</h1><div class="doc">
+  <p>每条建议都回答两个问题：<b>花掉什么</b>（钱、时间、毅力），<b>换回什么</b>（寿命、钱、时间精力、人身自由）。卡片上那几个标记就是这两个问题的速记。</p>
+  <h2>卡片上的四个标记</h2>
+  <div class="legend">
+    <span class="seal A">A</span><div><b>证据等级</b>：A 有具体数字可查，出处是多项研究合并的分析、大型长期研究或随机分组试验，法律类指引到了法条或官方原文。B 有研究支持但说不出确切数字，或只有小样本。C 是作者经验或公认做法。</div>
+    <span class="ratio r3">性价比 极高</span><div><b>性价比档</b>：原作者按「好处多大」和「花掉多少」合出来的档，见下面的规则。这是作者的判断，不代表证据强度。</div>
+    <span class="lens"><i>换回</i>寿命</span><div><b>换回什么</b>：这条主要换回哪一类东西。${LENS_EXPL}不同类别之间不比大小。</div>
+    <span class="chip"><i>钱</i>不花钱</span><div><b>成本</b>：钱分不花钱 / 几十到几百元 / 千元以上；时间分几分钟 / 一次数小时 / 每天持续占用；毅力分一次性 / 需改变习惯 / 需长期坚持。</div>
+  </div>
+  <h2>性价比档的划分</h2>
+  <p>证据等级只回答「这个数字可不可信」，不回答「这件事值不值得做」。所以原作者给每条另外标了好处的量级（大 / 中 / 小）和三项成本。${RULE}</p>
+  <div class="tbl"><table><thead><tr><th>好处</th><th>成本合计</th><th>档</th></tr></thead><tbody>
+  <tr><td>大</td><td>0 分（钱、时间、毅力都是最低档）</td><td>极高</td></tr>
+  <tr><td>大</td><td>1 到 2 分（可以有一项是最高档）</td><td>高</td></tr>
+  <tr><td>中</td><td>0 分</td><td>高</td></tr>
+  <tr><td>其余情况</td><td></td><td>一般</td></tr></tbody></table></div>
+  <p>全书 ${META.count||ALL.length} 条里极高 ${META.ratio?META.ratio['极高']:'-'} 条、高 ${META.ratio?META.ratio['高']:'-'} 条、一般 ${META.ratio?META.ratio['一般']:'-'} 条。证据等级和性价比档是两回事：一条可以证据是 A 级、性价比却只算一般${exA?`（例如 ${ex(exA)}）`:''}；也可以证据只有 C 级、性价比却极高${exC?`（例如 ${ex(exC)}）`:''}。「一般」不等于不该做，只是那笔花销是否值得需要自行判断。点任何一张卡片上的「性价比」，能看到那条的分数是怎么算的。</p>
+  <h2>百分比的含义</h2>
+  <p>「说人话」和「收益」里的百分比，多数是比没做的人低几成，不是每一百人里少几个。同样低 12%，本来风险就高的老人少掉的人数，远多于本来风险很低的年轻人。所以先看写的是哪些人，再看百分比。</p>
+  <h2>本机记录</h2>
+  <p>「已完成」「收藏」「已阅」「最近浏览」和「上次阅读位置」只保存在本设备的浏览器里，不上传。条目在屏幕中停留一秒以上，或点开详情，即自动标为已阅；可在卡片上手动改回未阅。筛选条件里有「隐藏已阅」。</p>
+  <p>更换设备或清除浏览器数据后会丢失，因此<a href="#mine">我的</a>页面提供导出和导入。上游偶尔会在节内插入新条目导致编号变化，本站按标题重新对应记录；无法对应的会单独列出，不会错挂到别的条目上。</p>
+  <h2>添加到手机桌面</h2>
+  <p>iPhone：Safari 打开本站，点底部的分享按钮，选「添加到主屏幕」。Android：Chrome 菜单里选「添加到主屏幕」或「安装应用」。装好后像 App 一样全屏打开。本站没有做离线缓存，打开时要联网。</p>
+  <h2>出处和许可</h2>
+  <p>正文全部出自 <a href="https://github.com/eternity4719/HowToLiveBetter" target="_blank" rel="noopener">eternity4719/HowToLiveBetter</a>，按 CC BY 4.0 使用，未改动任何条目文字。每天早上自动同步上游。纠错和补充请去原仓库提 issue。</p>
+  </div>`;
+}
+let mineTab='done';
+function mine(){
+  const lists={ done:Object.entries(REC.done).map(([key,v])=>Object.assign({key},v)), fav:Object.entries(REC.fav).map(([key,v])=>Object.assign({key},v)), read:Object.entries(REC.read).map(([key,v])=>Object.assign({key},v)), recent:REC.recent.slice() };
+  for(const k of ['done','fav','read']) lists[k].sort((a,b)=>(b.t||'').localeCompare(a.t||''));
+  const cur=lists[mineTab];
+  const rows=cur.map(r=>{ if(r.lost||!BYKEY[r.key]) return `<div class="orphan">「${esc(r.title)}」在当前正文里找不到了（原来是第 ${esc(String(r.key0||r.key).replace(/^lost:/,'').replace('-',' 节第 '))} 条），上游可能改了标题或删了这条。</div>`; const e=BYKEY[r.key]; const s=BOOK.find(x=>x.n===+r.key.split('-')[0]); return card(e,s,'',true); }).join('');
+  const tab=(k,l)=>`<button type="button" class="${mineTab===k?'on':''}" data-tab="${k}">${l} ${lists[k].length}</button>`;
+  main.innerHTML=`${crumb('我的')}<h1 class="page-title">我的</h1>
+  <div class="tabs">${tab('done','已完成')}${tab('fav','收藏')}${tab('read','已阅')}${tab('recent','最近浏览')}</div>
+  <div class="list">${rows||'<p class="empty">暂无记录。在条目上点「标为完成」或「收藏」即可记录；点开过详情的条目会出现在「最近浏览」。</p>'}</div>
+  <div class="io">
+    <button type="button" id="exp-dl">导出 JSON 文件</button>
+    <button type="button" id="exp-copy">复制 JSON</button>
+    <label for="imp-file">导入 JSON 文件<input type="file" id="imp-file" accept="application/json,.json"></label>
+    <button type="button" id="imp-paste">粘贴导入</button>
+    <button type="button" id="clear-all">清空记录</button>
+  </div>
+  <textarea id="imp-text" placeholder="将导出的 JSON 粘贴到此处，再点击「粘贴导入」" hidden></textarea>
+  <p class="notice" id="io-msg">记录仅保存在本设备。导出的文件可在其他设备导入，导入为合并，不会覆盖已有记录。</p>`;
+}
+
+/* ---------- 导出 / 导入 ---------- */
+function exportJSON(){ return JSON.stringify({ app:'高性价比人生指南', v:1, exported:new Date().toISOString(), upstream:META.sha||'', done:REC.done, fav:REC.fav, read:REC.read, recent:REC.recent, last:REC.last }, null, 1); }
+function importJSON(text){
+  let d; try{ d=JSON.parse(text); }catch(e){ return '不是有效的 JSON'; }
+  if(!d||d.v!==1||typeof d.done!=='object'||!d.done) return '不是本站导出的记录文件';
+  if(d.recent!=null && !Array.isArray(d.recent)) return '文件格式不对';
+  const str=x=>typeof x==='string'?x:'';
+  const bak=JSON.stringify(REC);
+  try{
+    let n=0, miss=0;
+    for(const kind of ['done','fav','read']){ const src=d[kind]; if(!src||typeof src!=='object') continue;
+      for(const [k,v] of Object.entries(src)){ if(/^lost:/.test(k)) continue; const nk=resolve(k, v&&str(v.title)); if(!nk){ miss++; continue; } if(!REC[kind][nk]){ REC[kind][nk]={title:BYKEY[nk].title,t:(v&&str(v.t))||now()}; n++; } } }
+    for(const r of (d.recent||[])){ if(!r||typeof r!=='object'||typeof r.key!=='string') continue; const nk=resolve(r.key,str(r.title)); if(!nk){ miss++; continue; } if(!REC.recent.some(x=>x.key===nk)){ REC.recent.push({key:nk,title:BYKEY[nk].title,t:str(r.t)||now()}); n++; } }
+    REC.recent.sort((a,b)=>(b.t||'').localeCompare(a.t||'')); REC.recent=REC.recent.slice(0,60);
+    saveRec(); return `已合并 ${n} 条${miss?`，${miss} 条在当前正文里找不到对应条目，已跳过`:''}`;
+  }catch(e){ try{ REC=JSON.parse(bak); }catch(e2){} return '文件内容有问题，没有导入'; }
+}
+function msg(t,ok){ const el=$('#io-msg'); if(el){ el.textContent=t; el.classList.toggle('ok',!!ok); } }
+
+/* ---------- 弹层 ---------- */
+let pop=null;
+function closePop(){ if(pop){ pop.remove(); pop=null; } }
+function showPop(btn,html){
+  closePop(); pop=document.createElement('div'); pop.className='pop'; pop.setAttribute('role','dialog');
+  pop.innerHTML=html+'<a href="#about">看完整说明 ›</a>'; document.body.appendChild(pop);
+  const cs=getComputedStyle(root); const sl=Math.max(16,parseFloat(cs.getPropertyValue('--sl'))||0), sr=Math.max(16,parseFloat(cs.getPropertyValue('--sr'))||0);
+  const r=btn.getBoundingClientRect(); const w=pop.offsetWidth, h=pop.offsetHeight;
+  let x=Math.min(Math.max(sl,r.left), window.innerWidth-w-sr); let y=r.bottom+8; if(y+h>window.innerHeight-16) y=Math.max(16,r.top-h-8);
+  pop.style.left=x+'px'; pop.style.top=y+'px';
+}
+
+/* ---------- 自动已阅与记住位置 ---------- */
+function setRead(c,on){ const key=c.dataset.k; if(on===!!REC.read[key]) return; mark('read',key,on); c.classList.toggle('read',on); const b=c.querySelector('.read-b'); if(b) b.textContent=on?'标为未阅':'标为已阅'; }
+const seen=new Map();
+const RIO=('IntersectionObserver' in window) ? new IntersectionObserver(es=>{ for(const x of es){ const c=x.target; if(x.isIntersecting && x.intersectionRatio>=0.6){ if(!seen.has(c)) seen.set(c,setTimeout(()=>{ seen.delete(c); setRead(c,true); RIO.unobserve(c); },1200)); } else if(seen.has(c)){ clearTimeout(seen.get(c)); seen.delete(c); } } },{threshold:[0.6]}) : null;
+function watchCards(){ if(!RIO) return; RIO.disconnect(); seen.clear(); main.querySelectorAll('.card:not(.read)').forEach(c=>RIO.observe(c)); }
+let posTimer=null;
+function savePos(){ const h=(location.hash||'#home').slice(1); if(!/^(s\d+|top)/.test(h) || state.q) return; const top=BAR.getBoundingClientRect().bottom+8; let first=null; for(const c of main.querySelectorAll('.card')){ if(c.getBoundingClientRect().bottom>top){ first=c; break; } } if(!first) return; const key=first.dataset.k; if(!BYKEY[key]) return; REC.last={ key, title:BYKEY[key].title, view:h, t:now() }; saveRec(); }
+window.addEventListener('scroll',()=>{ clearTimeout(posTimer); posTimer=setTimeout(savePos,400); },{passive:true});
+
+/* ---------- 路由与返回时恢复位置 ---------- */
+if('scrollRestoration' in history) history.scrollRestoration='manual';
+let restore=null, lastRoute='';
+function snapshot(){ try{ history.replaceState({y:window.scrollY, open:[...main.querySelectorAll('.card.is-open')].map(c=>c.dataset.k)},''); }catch(e){} }
+document.addEventListener('click',ev=>{ const a=ev.target.closest('a[href^="#"]'); if(!a||ev.defaultPrevented) return; snapshot(); },true);
+window.addEventListener('popstate',()=>{ restore=history.state; });
+function openCard(c,on){ c.classList.toggle('is-open',on); const b=c.querySelector('.open'); b.setAttribute('aria-expanded',on); b.textContent=on?'收起详情':'详情'; }
+function route(){
+  closePop();
+  if(!BOOK.length) return;
+  const h=(location.hash||'#home').slice(1);
+  document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on', a.dataset.r===h || (a.dataset.r==='docs'&&/^d(\d+|\/.+)$/.test(h)) || (a.dataset.r==='home'&&/^s\d+/.test(h))));
+  $('#back').classList.toggle('show', STANDALONE && history.length>1 && h!=='home');
+  if(state.q){ restore=null; results(); lastRoute=h; watchCards(); return; }
+  const st=restore; restore=null;
+  let m, target=null;
+  if(h==='home'||h==='') home();
+  else if(h==='top') topOnly();
+  else if(h==='docs') docsPage();
+  else if(h==='mine') mine();
+  else if(h==='about') about();
+  else if((m=/^d\/(.+)$/.exec(h))){ let f=''; try{ f=decodeURIComponent(m[1])+'.md'; }catch(e){} docPage(DOCS.find(x=>x.file===f)); }
+  else if((m=/^d(\d+)$/.exec(h))){ const d=DOCS.find(x=>x.n===+m[1]); if(d){ try{ history.replaceState(history.state,'',dHref(d)); }catch(e){} } docPage(d); }
+  else if((m=/^s(\d+)(?:-(\d+))?$/.exec(h))){
+    section(+m[1]);
+    if(m[2]){ const key=`${m[1]}-${m[2]}`; target=document.getElementById('s'+key);
+      if(!target && BYKEY[key]){ state.money=state.time=state.will=state.gradeA=state.hideRead=false; saveFilters(); section(+m[1]); target=document.getElementById('s'+key); main.insertAdjacentHTML('afterbegin','<p class="hint">目标条目被筛选条件隐藏，已清除筛选。</p>'); }
+      if(target){ openCard(target,true); target.classList.add('hit'); setTimeout(()=>target.classList.remove('hit'),2500); touch(key); } }
+  } else home();
+  // 滚动：后退时恢复原位置和展开状态；深链滚到那一条；其他情况回到顶部
+  if(st && typeof st.y==='number'){ (st.open||[]).forEach(k=>{ const c=document.getElementById('s'+k); if(c) openCard(c,true); }); window.scrollTo(0,st.y); }
+  else if(target){ setBarH(); target.scrollIntoView({block:'start'}); }
+  else if(lastRoute!==h || /^s\d+$/.test(h)) window.scrollTo(0,0);
+  lastRoute=h;
+  watchCards();
+}
+
+/* ---------- 事件 ---------- */
+main.addEventListener('click',ev=>{
+  const sw=ev.target.closest('[data-sw]'); if(sw){ state[sw.dataset.sw]=!state[sw.dataset.sw]; saveFilters(); const dm=/^#s(\d+)-\d+$/.exec(location.hash); if(dm){ try{ history.replaceState(history.state,'','#s'+dm[1]); }catch(e){} } route(); return; }
+  const pb=ev.target.closest('[data-pop]'); if(pb){ ev.preventDefault(); const [k,v]=pb.dataset.pop.split(':'); showPop(pb, k==='grade'?EXPLAIN.grade[v] : (k==='ratio'&&BYKEY[v]) ? ratioPop(BYKEY[v]) : EXPLAIN[k]); return; }
+  const op=ev.target.closest('.open'); if(op){ const c=op.closest('.card'); const on=!c.classList.contains('is-open'); openCard(c,on); if(on){ touch(c.dataset.k); setRead(c,true); } return; }
+  const db=ev.target.closest('.done-b'); if(db){ const c=db.closest('.card'); const on=!db.classList.contains('on'); mark('done',c.dataset.k,on); db.classList.toggle('on',on); db.setAttribute('aria-pressed',on); db.textContent=on?'✓ 已完成':'○ 标为完成'; c.classList.toggle('done',on); return; }
+  const fb=ev.target.closest('.fav-b'); if(fb){ const c=fb.closest('.card'); const on=!fb.classList.contains('on'); mark('fav',c.dataset.k,on); fb.classList.toggle('on',on); fb.setAttribute('aria-pressed',on); fb.textContent=on?'★ 已收藏':'☆ 收藏'; return; }
+  const rb=ev.target.closest('.read-b'); if(rb){ const c=rb.closest('.card'); setRead(c,!c.classList.contains('read')); return; }
+  const tb=ev.target.closest('[data-tab]'); if(tb){ mineTab=tb.dataset.tab; mine(); return; }
+  if(ev.target.id==='open-all'){ main.querySelectorAll('.card').forEach(c=>openCard(c,true)); return; }
+  if(ev.target.id==='exp-dl'){
+    const name=`人生指南记录-${now()}.json`, json=exportJSON(); let file=null; try{ file=new File([json],name,{type:'application/json'}); }catch(e){}
+    if(STANDALONE && file && navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file]}).then(()=>msg('已调起系统分享，可选择「存储到文件」或发送给自己。',true)).catch(e=>{ msg(e&&e.name==='AbortError'?'已取消分享。':'分享未成功，请改用「复制 JSON」。'); }); return; }
+    try{ const url=URL.createObjectURL(new Blob([json],{type:'application/json'})); const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),10000); msg('已生成文件。若未出现下载提示，请改用「复制 JSON」。'); }catch(e){ msg('当前环境不支持下载，请改用「复制 JSON」。'); }
+    return; }
+  if(ev.target.id==='exp-copy'){ const t=exportJSON(); (navigator.clipboard&&navigator.clipboard.writeText ? navigator.clipboard.writeText(t) : Promise.reject()).then(()=>msg('已复制到剪贴板，可粘贴到备忘录或发送给自己保存。',true)).catch(()=>{ const ta=$('#imp-text'); ta.hidden=false; ta.value=t; ta.select(); msg('复制未成功，内容已放在下方文本框，请手动全选复制。'); }); return; }
+  if(ev.target.id==='imp-paste'){ const ta=$('#imp-text'); if(ta.hidden){ ta.hidden=false; ta.value=''; ta.focus(); msg('请将 JSON 粘贴到文本框，再点击一次「粘贴导入」。'); return; } const r=importJSON(ta.value); msg(r, /已合并/.test(r)); if(/已合并/.test(r)) mine(); return; }
+  if(ev.target.id==='clear-all'){ const b=ev.target; if(b.dataset.arm){ REC=EMPTY(); saveRec(); mine(); msg('已清空。'); } else { b.dataset.arm='1'; b.textContent='再次点击确认清空'; msg('清空后不能恢复，建议先导出。4 秒内再点一次确认。'); clearTimeout(b._t); b._t=setTimeout(()=>{ delete b.dataset.arm; b.textContent='清空记录'; },4000); } return; }
+});
+main.addEventListener('change',ev=>{ if(ev.target.id==='imp-file'&&ev.target.files[0]){ const f=ev.target.files[0]; const rd=new FileReader(); rd.onload=()=>{ const r=importJSON(String(rd.result)); msg(r,/已合并/.test(r)); if(/已合并/.test(r)) mine(); }; rd.readAsText(f); } });
+document.addEventListener('pointerdown',ev=>{ if(pop && !pop.contains(ev.target) && !ev.target.closest('[data-pop]')) closePop(); });
+window.addEventListener('scroll',closePop,{passive:true});
+// 搜索：输入法打拼音时不触发；hash 一变（也就是任何站内跳转）就退出搜索
+let timer; const doQ=()=>{ clearTimeout(timer); timer=setTimeout(()=>{ state.q=qInput.value.trim(); route(); },120); };
+qInput.addEventListener('input',ev=>{ if(ev.isComposing) return; doQ(); });
+qInput.addEventListener('compositionend',doQ);
+qInput.addEventListener('keydown',ev=>{ if(ev.key==='Enter'&&!ev.isComposing&&ev.keyCode!==229){ ev.preventDefault(); qInput.blur(); } });
+document.addEventListener('keydown',ev=>{ if(ev.key==='/'&&document.activeElement!==qInput&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)){ ev.preventDefault(); qInput.focus(); } if(ev.key==='Escape'){ if(pop){ closePop(); return; } if(document.activeElement===qInput){ qInput.value=''; state.q=''; route(); qInput.blur(); } } });
+window.addEventListener('hashchange',()=>{ if(state.q){ state.q=''; qInput.value=''; } route(); });
+document.addEventListener('click',ev=>{ const a=ev.target.closest('a[href^="#"]'); if(a && state.q && a.getAttribute('href')===(location.hash||'#home')){ state.q=''; qInput.value=''; route(); } });
+$('#back').addEventListener('click',()=>{ if(history.length>1) history.back(); else location.hash='#home'; });
+
+/* ---------- 载入 ---------- */
+function fail(err){ main.innerHTML=`<p class="empty">无法读取正文数据（${esc(err&&err.message||err)}）。<button type="button" id="reload">点这里重新加载</button>　若是直接双击打开的本地文件，需改用 http 方式访问。</p>`; $('#reload').addEventListener('click',()=>location.reload()); window.addEventListener('online',()=>location.reload(),{once:true}); }
+Promise.all([
+  fetch('book.json',{cache:'no-cache'}).then(r=>{ if(!r.ok) throw new Error('book.json '+r.status); return r.json(); }),
+  fetch('docs.json',{cache:'no-cache'}).then(r=>r.ok?r.json():[]).catch(()=>[]),
+]).then(([data,docs])=>{
+  BOOK=data.sections; META=data.meta||{}; DOCS=Array.isArray(docs)?docs:[];
+  for(const s of BOOK) for(const e of s.entries){ e.key=`${s.n}-${e.n}`; BYKEY[e.key]=e; }
+  ALL=BOOK.flatMap(s=>s.entries);
+  if(META.sha) $('#stamp').textContent=`${META.sha}（${META.date}）`;
+  try{ migrate(); }catch(e){ REC=EMPTY(); }
+  route();
+}).catch(fail);
+})();
+</script>
+<!--ART:body-end-->
+</body>
+</html>

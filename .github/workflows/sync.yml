@@ -1,0 +1,45 @@
+# 每天早上拉一次上游正文，重新生成 book.json。没变化就不提交。
+# 发布方式：Settings → Pages → Source 选 "Deploy from a branch"，分支 main，目录 /（根）。
+name: 同步上游正文
+on:
+  schedule:
+    - cron: '30 22 * * *'   # UTC 22:30 = 北京时间 06:30
+  workflow_dispatch:
+    inputs:
+      allow_shrink:
+        description: '上游确实大删或重排了节，人工放行（填 1）'
+        default: ''
+permissions:
+  contents: write
+  actions: write           # 用来给自己「续命」，见最后一步
+concurrency:
+  group: sync
+  cancel-in-progress: true
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 拉上游
+        run: git clone --depth 1 https://github.com/eternity4719/HowToLiveBetter upstream
+      - name: 生成 book.json 与 docs.json（条数骤降、整节丢失、长文丢失都会失败，网站停在上一版）
+        env:
+          ALLOW_SHRINK: ${{ github.event.inputs.allow_shrink }}
+        run: node tools/build.mjs upstream book.json
+      - name: 有变化才提交
+        run: |
+          if git diff --quiet -- book.json docs.json; then echo "上游没变"; exit 0; fi
+          sha=$(git -C upstream rev-parse --short HEAD)
+          git config user.name  github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add book.json docs.json
+          git commit -m "同步上游 ${sha}"
+          git push
+      # 公开仓库 60 天没有活动，GitHub 会自动停掉定时任务。每次跑完重新启用自己一次，防止静默停掉。
+      - name: 续命
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/sync.yml/enable"
